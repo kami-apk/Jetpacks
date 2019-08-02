@@ -34,16 +34,9 @@ class DetailFragment : Fragment() {
         arguments?.let{
             //argumentsがnullでないならListFragmentから来たdogUuidで書き換える
             dogUuid = DetailFragmentArgs.fromBundle(it).dogUuid
-            //引数を実際に反映してみる
-            textView.text = dogUuid.toString()
+
         }
 
-        buttonList.setOnClickListener{
-            //DetailFragmentDirectionsは自動補完でクラスを作らせる
-            //.の後にaction遷移したいフラグメント名()を加える
-            val action : NavDirections = DetailFragmentDirections.actionListFragment()
-            Navigation.findNavController(it).navigate(action)
-        }
     }
 
 

@@ -22,18 +22,7 @@ class ListFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
 
-        buttonDetails.setOnClickListener {
-            //ListFragmentDirectionsは自動補完でクラスを作らせる
-            //val action : NavDirections = ListFragmentDirections.actionDetailFragment()
-            //actionの型がNavDirectionsのままなら下のように型を書き換える
-            val action : ListFragmentDirections.ActionDetailFragment = ListFragmentDirections.actionDetailFragment()
-            action.dogUuid = 5
-            Navigation.findNavController(it).navigate(action)
-        }
-    }
 
 
 }
