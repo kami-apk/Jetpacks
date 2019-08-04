@@ -34,7 +34,7 @@
                     style="@style/Title"/>
 
             <TextView
-                    android:id="@+id/lifspan"
+                    android:id="@+id/lifespan"
                     style="@style/Text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
