@@ -7,6 +7,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.kamiapk.jetpacks.R
 import com.kamiapk.jetpacks.model.DogBreed
+import com.kamiapk.jetpacks.util.getProgressDrawable
+import com.kamiapk.jetpacks.util.loadImage
 import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kotlinx.android.synthetic.main.item_dog.view.*
 
@@ -43,6 +45,9 @@ class DogsListAdapter(val dogsList:ArrayList<DogBreed>) : RecyclerView.Adapter<D
         holder.view.setOnClickListener{
             Navigation.findNavController(it).navigate(ListFragmentDirections.actionDetailFragment())
         }
+        //画像読み込み
+        //getProgressDrawableの引数のcontextが微妙に厄介
+        holder.view.imageView.loadImage(dogsList[position].imageUrl, getProgressDrawable(holder.view.imageView.context))
     }
 
     //viewholder class
