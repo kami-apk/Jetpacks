@@ -12,7 +12,7 @@ class DetailViewModel : ViewModel() {
     //データクラスのLiveData
     val dogLiveData = MutableLiveData<DogBreed>()
 
-    //
+    //実際にここを書き換えるにはデータクラスを引き継がないといけない
     fun feche(){
         //モック
         val dog = DogBreed(

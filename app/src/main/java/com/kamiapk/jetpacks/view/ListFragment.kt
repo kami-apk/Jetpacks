@@ -38,7 +38,9 @@ class ListFragment : Fragment() {
         //フラグメント内でviewmodelインスタンスの取得
         viewModel = ViewModelProviders.of(this).get(ListViewModel::class.java)
         //refresh関数の呼び出し
+
         //viewmodelの方に詳しい記述はあるがデータクラスの準備をしている
+        //ネットワーク通信&データ取得
         viewModel.refresh()
 
         //dogsListはリサイクラービューのid
@@ -49,6 +51,21 @@ class ListFragment : Fragment() {
             adapter = dogsListAdapter
         }
         //関数の呼び出し
+
+        //上にスワイプした時の動作
+        refreshlayout.setOnRefreshListener {
+            //更新するときには、ロード中のスピナーだけを見せる
+            dogsList.visibility = View.GONE
+            listError.visibility = View.GONE
+            loadingView.visibility = View.VISIBLE
+            viewModel.refresh()
+            //これで無限にロードをすることがなくなる
+            refreshlayout.isRefreshing = false
+        }
+
+
+
+
         observerViewModel()
 
     }
