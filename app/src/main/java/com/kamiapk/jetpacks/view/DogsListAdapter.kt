@@ -42,8 +42,19 @@ class DogsListAdapter(val dogsList:ArrayList<DogBreed>) : RecyclerView.Adapter<D
         //nameはTextViewのid
         holder.view.name.text = dogsList[position].dogBreed
         holder.view.lifespan.text =  dogsList[position].lifeSpan
+        //要素がタップされた時の操作をここに記述
         holder.view.setOnClickListener{
-            Navigation.findNavController(it).navigate(ListFragmentDirections.actionDetailFragment())
+
+            //ListFragmentからDetailFragmentへのフラグメント切り替え
+            //uuidさえわかればDBから全情報取得できる
+
+            //どこからどこへ推移するのか
+            val action = ListFragmentDirections.actionDetailFragment()
+            //アクションにuuidの情報を持たせる
+            //dogUuidはDetailFragment.ktで宣言されている変数
+            action.dogUuid = dogsList[position].uuid
+            Navigation.findNavController(it).navigate(action)
+
         }
         //画像読み込み
         //getProgressDrawableの引数のcontextが微妙に厄介

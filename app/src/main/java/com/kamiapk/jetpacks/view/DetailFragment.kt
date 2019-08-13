@@ -14,6 +14,8 @@ import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 
 import com.kamiapk.jetpacks.R
+import com.kamiapk.jetpacks.util.getProgressDrawable
+import com.kamiapk.jetpacks.util.loadImage
 import com.kamiapk.jetpacks.viewmodel.DetailViewModel
 import kotlinx.android.synthetic.main.fragment_detail.*
 
@@ -36,14 +38,15 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
-        //viewModelのデータクラスの更新
-        viewModel.feche()
-
+        //viewModel.feche(dogUuid)より前に持ってくる
         arguments?.let{
             //argumentsがnullでないならListFragmentから来たdogUuidで書き換える
             dogUuid = DetailFragmentArgs.fromBundle(it).dogUuid
         }
+
+        viewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
+        //dogUuidによりどのDogBreedを指しているのか特定する
+        viewModel.feche(dogUuid)
 
         observeViewModel()
 
@@ -58,6 +61,12 @@ class DetailFragment : Fragment() {
                 dogPurpose.text = dog.bredFor
                 dogTemperament.text = dog.temperament
                 dogLifeSpan.text = dog.lifeSpan
+                //画像表示は拡張関数をUtil.ktに記述しているのでそれを使う.
+                context?.let{
+                    dogImage.loadImage(dog.imageUrl, getProgressDrawable(it))
+                }
+                //エラー。contextがnull許容型で型不一致のため
+                //dogImage.loadImage(dog.imageUrl, getProgressDrawable(context))
             }
         })
     }

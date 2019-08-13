@@ -2,6 +2,7 @@ package com.kamiapk.jetpacks.view
 
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -58,7 +59,11 @@ class ListFragment : Fragment() {
             dogsList.visibility = View.GONE
             listError.visibility = View.GONE
             loadingView.visibility = View.VISIBLE
-            viewModel.refresh()
+            //上にスワイプしたときは、DBから値を取得するのではなくて
+            // リモートから値を取得するのがよい
+            //ついった
+            //viewModel.refresh()
+            viewModel.refreshBypassCache()
             //これで無限にロードをすることがなくなる
             refreshlayout.isRefreshing = false
         }
@@ -70,7 +75,10 @@ class ListFragment : Fragment() {
 
     }
 
+    //この関数自体はアクティビティというかフラグメントが作成された時に一回しかよばれない。
+    //画面更新しても呼ばれない
     fun observerViewModel() {
+        Log.w("TTT","Check")
         //viewModel.dogsは
         // val dogs = MutableLiveData<List<DogBreed>>()
         //でDogBreedデータクラスを要素に持つリスト
