@@ -2,6 +2,7 @@ package com.kamiapk.jetpacks.util
 
 import android.content.Context
 import android.widget.ImageView
+import androidx.databinding.BindingAdapter
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -17,7 +18,7 @@ fun getProgressDrawable(context : Context) : CircularProgressDrawable {
     }
 }
 
-
+//この拡張関数を使って画像の表示を行う
 fun ImageView.loadImage(url :String?, progressDrawable: CircularProgressDrawable){
     val options = RequestOptions()
         .placeholder(progressDrawable)//読み込み
@@ -27,5 +28,13 @@ fun ImageView.loadImage(url :String?, progressDrawable: CircularProgressDrawable
         .load(url)
         .into(this)//ImageView
 }
-//この関数をリサイクラービューのアダプター内で呼び出す
+
+//上の拡張関数を使ってデータバインディング用の関数を作成する
+//作成したらrebuild
+@BindingAdapter("android:imageUrl")
+fun loadImage(view : ImageView, url : String?){
+    //拡張関数
+    view.loadImage(url, getProgressDrawable(view.context))
+}
+
 

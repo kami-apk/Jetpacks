@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -14,6 +15,7 @@ import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
 
 import com.kamiapk.jetpacks.R
+import com.kamiapk.jetpacks.databinding.FragmentDetailBinding
 import com.kamiapk.jetpacks.util.getProgressDrawable
 import com.kamiapk.jetpacks.util.loadImage
 import com.kamiapk.jetpacks.viewmodel.DetailViewModel
@@ -25,13 +27,22 @@ class DetailFragment : Fragment() {
     private lateinit var viewModel : DetailViewModel
     private var dogUuid = 0
 
+    //onCreateView内にてレイアウトのinflateの時に使用する
+    private lateinit var dataBinding : FragmentDetailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        /*
+        データバインディング時
+         */
+        dataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_detail, container, false)
+        return dataBinding.root
+
+        //通常時
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail, container, false)
+        //return inflater.inflate(R.layout.fragment_detail, container, false)
     }
 
     //Viewの初期化はonViewCreatedで行うのがよい
@@ -57,6 +68,15 @@ class DetailFragment : Fragment() {
         //dogLiveDataのデータクラスのプロパティを参照する
         viewModel.dogLiveData.observe(this, Observer { dog ->
             dog?.let{
+
+                //この一行でおけ
+                //最初のdogはfragment_detail.xmlで定義したdog
+                dataBinding.dog = it
+
+
+
+                //データバインディングによってここの記述が減る
+                /*
                 dogName.text = dog.dogBreed
                 dogPurpose.text = dog.bredFor
                 dogTemperament.text = dog.temperament
@@ -65,8 +85,10 @@ class DetailFragment : Fragment() {
                 context?.let{
                     dogImage.loadImage(dog.imageUrl, getProgressDrawable(it))
                 }
+
                 //エラー。contextがnull許容型で型不一致のため
                 //dogImage.loadImage(dog.imageUrl, getProgressDrawable(context))
+                */
             }
         })
     }
